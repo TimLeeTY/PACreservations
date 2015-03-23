@@ -1,0 +1,10 @@
+CREATE TABLE Mon_PAC2 (
+timeID INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+booked BOOLEAN,
+length INT(6),
+name VARCHAR(30),
+email VARCHAR(50),
+house VARCHAR(30),
+year VARCHAR(30),
+reg_date TIMESTAMP
+);
