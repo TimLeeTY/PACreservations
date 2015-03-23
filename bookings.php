@@ -20,14 +20,15 @@
 <body>
 	
 <?php
-	$day='MON';
+	$day=$_POST["day"];
 	$servername = "localhost";
 	$username = "leetimmy";
 	$password = "poohpooh";
 	$dbname = "reservations";
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	$roomName = array("PAC1"=>"PAC Room 1", "PAC2"=>"PAC Room 2", "PAC3"=>"PAC Room 3", "CHAMBER"=>"Chamber Music Room");
-	echo'<h1>'.$day.'</h1>';
+	$dayName= array("MON"=>"Monday", "TUE"=>"Tuesday", "WED"=>"Wednesday", "THU"=>"Thursday", "FRI"=>"Friday", "SAT"=>"Saturday", "SUN"=>"Sunday");
+	echo'<div class="heading">'.$dayName[$day].'</div>';
 	function createForm($room){
 		global $conn, $day, $roomName;
 		$result = $conn->query('SELECT timeID, booked FROM '.$day.'_'.$room) or die('failed conection');
@@ -67,26 +68,26 @@ echo'
 	<div id="tableDiv">
 	<table style="display:visible">
 	<tr class= "times ">
-	<td class="headcol" border="0"></td>
-	<th>17:00</th>
-	<th>17:15</th>
-	<th>17:30</th>
-	<th>17:45</th>
-	<th>18:00</th>
-	<th>18:15</th>
-	<th>18:30</th>
-	<th>18:45</th>
-	<th>19:00</th>
-	<th>19:15</th>
-	<th>19:30</th>
-	<th>19:45</th>
-	<th>20:00</th>
-	<th>20:15</th>
-	<th>20:30</th>
-	<th>20:45</th>
-	<th>21:00</th>
-	<th>21:15</th>
-	<th>21:30</th>
+	<th class="headcol" id="cornerBlock"></th>
+	<th class="headrow">17:00</th>
+	<th class="headrow">17:15</th>
+	<th class="headrow">17:30</th>
+	<th class="headrow">17:45</th>
+	<th class="headrow">18:00</th>
+	<th class="headrow">18:15</th>
+	<th class="headrow">18:30</th>
+	<th class="headrow">18:45</th>
+	<th class="headrow">19:00</th>
+	<th class="headrow">19:15</th>
+	<th class="headrow">19:30</th>
+	<th class="headrow">19:45</th>
+	<th class="headrow">20:00</th>
+	<th class="headrow">20:15</th>
+	<th class="headrow">20:30</th>
+	<th class="headrow">20:45</th>
+	<th class="headrow">21:00</th>
+	<th class="headrow">21:15</th>
+	<th class="headrow">21:30</th>
 	</tr>';
 	function createRow($room){
 		global $conn, $roomName, $day;
@@ -95,7 +96,12 @@ echo'
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()){
 				if ($row["booked"]==0) {
-					echo '<td onclick="showForm('.$row[timeID].',\''.$room.'\')" style="background-color:white"> <div class="empty"></div></td>'."\n";
+					if ($row[timeID] % 2 ==0){
+						$altColor="rgb(240,240,240)";
+					} else {
+						$altColor="rgb(255,255,255)";
+					};
+					echo '<td onclick="showForm('.$row[timeID].',\''.$room.'\')" style="background-color:'.$altColor.'"> <div class="empty"></div></td>'."\n";
 				} elseif ($row["length"]>0) {
 					echo'<td colspan= '.$row["length"] .'> <div class="occupied" style="background-color:'.$row["color"].'"> <span class="occupiedText">' .$row["name"] .'<br> ' .$row["email"] .'</span> </div> </td>'."\n";
 				}

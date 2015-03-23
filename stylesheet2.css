@@ -1,0 +1,18 @@
+body{
+	margin:0;
+}
+div.heading{
+	font-size:5em;
+	font-family: Cursive;
+	text-align:center;
+	background-color: rgba(225,225,225,1);
+	margin-bottom:1em;
+}
+button{
+	width:13vw;
+	height:13vw;
+	border-radius:50%;
+	border:0px;
+	font-size:2em;
+	
+}

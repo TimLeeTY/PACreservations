@@ -3,6 +3,13 @@ body {
 	margin:0px;
 	font-family:Sans-Serif;
 }
+div.heading{
+	font-size:5em;
+	font-family: Cursive;
+	text-align:center;
+	background-color: rgba(225,225,225,1);
+	margin-bottom:1em;
+}
 div.formBack {
 	display:none;
 	height:100%;
@@ -56,21 +63,34 @@ button{
 #tableDiv{
 	overflow-x:scroll;
 	width:80%;
-	margin-left:10em;
+	margin-left:10%;
 }
 table{
+	margin-top:1px;
 	border-collapse:collapse;
+	margin-left:165px;
+	
 }
-th,td{
+th{
 	height:4em;
-	border: 1px black solid;
+	border: 3px grey solid;
+}
+td{
+	height:6em;
+	border:1px grey solid;
+	
+}
+#cornerBlock{
+	border-top:3px white solid;
+	border-left:3px white solid;
 }
 .headcol{
 	position:absolute;
-	left:0;
-	width:10em;
-	border-right:0px;
-	background-color: rgba();
+	left:10%;
+	margin-top:-1px;
+	width:160px;
+	background-color: white;
+	height:6em;
 }
 div.headSpan{
 	height:100%;
@@ -88,7 +108,7 @@ div.occupied{
 	text-align:center;
 	width:100%;
 	height:100%;
-	border-radius:1em;
+	border-radius:0.5em;
 }
 span.occupiedText{
 	vertical-align:middle;
