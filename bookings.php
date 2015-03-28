@@ -17,7 +17,58 @@
 	};
 	
 	<?php
-	//varible carried from selection in home page, should maybe use a php session instead
+	//serverside form validation start:
+	$name = $email= "";
+	$color="#FFFFFF";
+	function test_input($data) {
+	  $data = trim($data);
+	  $data = stripslashes($data);
+	  $data = htmlspecialchars($data);
+	  return $data;
+	}
+	if ($_POST["formTest"]==1) {
+		$formErr=0;
+		if(empty($_POST["name"])){
+			$formErr=1;			
+		} else{
+			$name=test_input($_POST["name"]);
+			if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+				$formErr=1;	
+			}
+		}
+		if (empty($_POST["email"])) {
+			$formErr=1;			
+		} else {
+			$email=test_input($_POST["email"]);
+		    // check if e-mail address is well-formed
+		    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+				$formErr=1; 
+		    }
+		}
+		if (empty($_POST["time"])) {
+		    $formErr=1;	
+		} else {
+		    
+		}
+		if ($formErr){
+			$startTime=$_POST["startTime"];
+			$time=$_POST["time"];
+			$house=$_POST["house"];
+			$year=$_POST["year"];
+			$color=$_POST["color"];
+		}else{
+			$_SESSION["email"]=$email;
+			$_SESSION["name"]=$name;
+			$_SESSION["startTime"]=$_POST["startTime"];
+			$_SESSION["time"]=$_POST["time"];
+			$_SESSION["house"]=$_POST["house"];
+			$_SESSION["year"]=$_POST["year"];
+			$_SESSION["color"]=$_POST["color"];
+			$_SESSION["room"]=$_POST["room"];
+			header('reserve.php'); 
+		}
+	}
+	//serverside form validaiton end:
 	$day=$_POST["day"];
 	$servername = "localhost";
 	$username = "leetimmy";
@@ -29,19 +80,19 @@
 	//creates list of timeID=>booked for all rooms in GLOBAL scope 
 	//records the number of free spaces looped in a list in an array ${"countlist".$room}
 	$roomNameAbrv= array("PAC1","PAC2","PAC3","CHAMBER");
-	foreach ($roomNameAbrv as $name){
-		${'bookedTime'.$name} = array();
-		$result = $conn->query('SELECT timeID, booked FROM '.$day.'_'.$name) or die('failed conection');
+	foreach ($roomNameAbrv as $room){
+		${'bookedTime'.$room} = array();
+		$result = $conn->query('SELECT timeID, booked FROM '.$day.'_'.$room) or die('failed conection');
 		if ($result->num_rows > 0) {
-			${"countlist".$name}=array();
+			${"countlist".$room}=array();
 		    while ($row = $result->fetch_assoc()) {
-				${"bookedTime".$name}=array_merge(${"bookedTime".$name}, array($row["timeID"]=>$row["booked"]));
-				if($row["booked"]==0 and count(${"countlist".$name})!=0 and end(${"countlist".$name})!=0){
-					${"countlist".$name}[count(${"countlist".$name})-1]+=1;
+				${"bookedTime".$room}=array_merge(${"bookedTime".$room}, array($row["timeID"]=>$row["booked"]));
+				if($row["booked"]==0 and count(${"countlist".$room})!=0 and end(${"countlist".$room})!=0){
+					${"countlist".$room}[count(${"countlist".$room})-1]+=1;
 				}elseif($row["booked"]==1){
-					array_push(${"countlist".$name},0);
-				}elseif(end(${"countlist".$name})==0 or count(${"countlist".$name})==0){ 
-					array_push(${"countlist".$name},1);
+					array_push(${"countlist".$room},0);
+				}elseif(end(${"countlist".$room})==0 or count(${"countlist".$room})==0){ 
+					array_push(${"countlist".$room},1);
 				};
 			};
 		};
@@ -72,26 +123,54 @@
 	};	
 	//function for creating forms for rooms with abbreviated room name of $room
 	function createForm($room){
-		global $conn, $day, $roomName, $dayName, ${"bookedTime".$room};
+		global $day, $roomName, $dayName, $name, $email, $color, ${"bookedTime".$room};
 		echo'<div class="formBack" id="div_'.$room.'" >
 			<div class="formFront">
-			<form action="reserve.php" method="post" id="form_'.$room.'" >
+			<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post" id="form_'.$room.'" >
 			<h2>'.$dayName[$day].', '.$roomName[$room].'</h2>
-			<input type="hidden" name="room" value='.$room.'>
-			<input type="hidden" name="day" value='.$day.'>
-			Name: <input type="text" name="name"> <br>
-			E-mail: <input type="text" name="email"><br>
-			Color: <input type="color" name="color" value="#FFFFFF"><br>
-			Start Time: <select name="startTime" id="formStartTime'.$room.'" onchange="formChange(\''.$room.'\')">';
+			<input type="hidden" name="formTest" value="1">
+			<input type="hidden" name="room" value="'.$room.'">
+			<input type="hidden" name="day" value="'.$day.'">
+			Name: 
+			<input type="text" name="name" value="'.$name.'"><span class="formError" id="nameErr"></span><br>
+			E-mail: 
+			<input type="text" name="email" value="'.$email.'"><span class="formError" id="emailErr"></span><br>
+			Form: 
+			<select name="year">
+				<option id="year_1_'.$room.'" value="1">4th </option>
+				<option id="year_2_'.$room.'" value="2">L5th </option>
+				<option id="year_3_'.$room.'" value="3">U5th </option>
+				<option id="year_4_'.$room.'" value="4">L6th </option>
+				<option id="year_5_'.$room.'" value="5">U6th </option>
+			</select><br>
+			House: 
+			<select name="house">
+				<option id="Heads_'.$room.'" value="Heads">Heads</option>
+				<option id="Abraham_'.$room.'" value="Abraham">Abraham</option>
+				<option id="School_'.$room.'" value="School">School</option>
+				<option id="Fenwick_'.$room.'" value="Fenwick">Fenwick</option>
+				<option id="New_'.$room.'" value="New">New</option>
+				<option id="Other_'.$room.'" value="Other">Other</option>
+			</select><br>
+			Colour: 
+			<input type="color" name="color" value="'.$color.'"><br>
+			Start Time: 
+			<select name="startTime" id="formStartTime'.$room.'" onchange="formChange(\''.$room.'\')">
+			';
 		foreach (${"bookedTime".$room} as $timeID=>$booked){
 			if ($booked==0) {
-				echo '<option value='.($timeID+1).' id="select'.($timeID+1).'_'.$room.'">'.($timeID+1).'</option>'."\n\t\t\t";
+				if ((15*($timeID%4))==0){
+					$minute='00';
+				} else{
+					$minute=(15*($timeID%4));
+				}
+				echo '	<option value='.($timeID+1).' id="select'.($timeID+1).'_'.$room.'">'.(floor(($timeID)/4)+17).':'.$minute.'</option>'."\n\t\t\t";
 			};			
 		};
 		echo '</select><br>
-			Duration: <select name="time" id="formTime'.$room.'"> </select> minutes
-			<button type="button" onclick="closeForm(\''.$room.'\')" id=cancel>Cancel</button>
-			<button type="submit" id=submit>Submit</button>
+			Duration: <select name="time" id="formTime'.$room.'"> </select> minutes <span class="formError" id="timeErr"></span>
+			<button type="button" onclick="closeForm(\''.$room.'\')" class="cancel">Cancel</button>
+			<button type="submit" class="submit">Submit</button>
 			</form>
 			</div></div>';
 	};
@@ -103,12 +182,14 @@
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()){
 				if ($row["booked"]==0) {
+					$border="1px grey solid";
+					$altColor="rgb(255,255,255)";
 					if ($row[timeID] % 2 ==0){
 						$altColor="rgb(240,240,240)";
-					} else {
-						$altColor="rgb(255,255,255)";
+					}elseif ($row[timeID] % 4==1){
+						$border="2px grey solid";
 					};
-					echo '<td onclick="showForm('.$row[timeID].',\''.$room.'\')" style="background-color:'.$altColor.'"> <div class="empty"></div></td>'."\n";
+					echo '<td onclick="showForm('.$row[timeID].',\''.$room.'\')" style="background-color:'.$altColor.'; border-left:'.$border.'"> <div class="empty"></div></td>'."\n";
 				} elseif ($row["length"]>0) {
 					echo'<td colspan= '.$row["length"].'> <div class="occupied" style="background-color:'.$row["color"].'"> <span class="occupiedText">'.$row["name"] .'<br> ' .$row["email"] .'</span> </div> </td>'."\n";
 				}
@@ -171,6 +252,15 @@ foreach (array("PAC1","PAC2","PAC3","CHAMBER") as $room) {
 	createRow($room);
 };
 echo "</table></div>";
+if ($formErr){
+	echo'<script> 
+		document.getElementById("div_'.$_POST["room"].'").style.display="inline";
+		document.getElementById("select'.$startTime.'_'.$_POST["room"].'").selected = true;
+		document.getElementById("'.$house.'_'.$_POST["room"].'").selected = true;
+		document.getElementById("year_'.$year.'_'.$_POST["room"].'").selected=true;
+		formChange("'.$_POST["room"].'");
+		</script>';
+}
 ?>
 </body>
 </html>

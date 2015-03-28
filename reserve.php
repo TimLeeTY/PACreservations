@@ -9,13 +9,15 @@
 </head>
 <body>
 <?php 
-$start = $_POST["startTime"];
-$time = $_POST["time"];
-$room = $_POST["room"];
-$name = $_POST["name"];
-$email = $_POST["email"];
-$day= $_POST["day"];
-$color= $_POST["color"];
+$start = $_SESSION["startTime"];
+$time = $_SESSION["time"];
+$room = $_SESSION["room"];
+$name = $_SESSION["name"];
+$email = $_SESSION["email"];
+$day= $_SESSION["day"];
+$color= $_SESSION["color"];
+$house=$_SESSION["house"];
+$year=$_SESSION["year"];
 $conn = new mysqli('localhost', 'leetimmy', 'poohpooh', 'reservations');
 $flag=0;
 for ($i = $start; $i <= ($start+$time); $i++){
@@ -30,7 +32,7 @@ for ($i = $start; $i <= ($start+$time); $i++){
 if ($flag==1){
 	echo 'it seems the time slot you chose has been taken';
 } else {
-	$sql2='UPDATE '.$day.'_'.$room.' SET name="'.$name.'", booked=1, color="'.$color.'",length='.$time.', email="'.$email.'" WHERE timeID='.$start;
+	$sql2='UPDATE '.$day.'_'.$room.' SET name="'.$name.'", booked=1, color="'.$color.'",length='.$time.', email="'.$email.'", house="'.$house.'", year='.$year.' WHERE timeID='.$start;
 	echo $sql2;
 	if ($conn->query($sql2) === TRUE) {
 	    echo "Record updated successfully";

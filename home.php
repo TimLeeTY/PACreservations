@@ -21,6 +21,7 @@
 		<button type="submit" name="day" value='.$weekNameShort[($dayOfWeek+4)%7].'>'.$weekName[($dayOfWeek+4)%7].'</button>
 		<button type="submit" name="day" value='.$weekNameShort[($dayOfWeek+5)%7].'>'.$weekName[($dayOfWeek+5)%7].'</button>
 		<button type="submit" name="day" value='.$weekNameShort[($dayOfWeek+6)%7].'>'.$weekName[($dayOfWeek+6)%7].'</button>
+		<input type="hidden" name="formTest" value=0>
 	</form>
 		';
 	?>

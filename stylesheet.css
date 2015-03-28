@@ -54,10 +54,10 @@ button{
 	color:blue;
 	border:1px solid black;
 }
-#cancel{
+button.cancel{
 	left:0;
 }
-#submit{
+button.submit{
 	right:0;
 }
 #tableDiv{
