@@ -1,10 +1,11 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 
 <head>
 	<title>Submit</title>
-	<script src="jquery-1.11.2.min.js"></script>
-	<script src="script.js"></script>
 	<link href="stylesheet.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
@@ -22,6 +23,7 @@ $conn = new mysqli('localhost', 'leetimmy', 'poohpooh', 'reservations');
 $flag=0;
 for ($i = $start; $i <= ($start+$time); $i++){
 	$sql='SELECT booked FROM '.$day.'_'.$room.' WHERE timeID='.$i;
+	echo $sql;
 	$result = $conn->query($sql) or die('failed conection');
 	$row = $result->fetch_assoc();
 	if ($row[booked]==1){
