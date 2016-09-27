@@ -1,14 +1,27 @@
 body {
 	padding:0px;
 	margin:0px;
+	background-image:url("backdrop.svg");
+	background-position:center top;
 	font-family:Sans-Serif;
 }
 div.heading{
-	font-size:5em;
-	font-family: Cursive;
+	height:17vh;
+	min-height:100px;
+	vertical-align:center;
+	color:#FFFFFF;
+	font-size:6em;
 	text-align:center;
-	background-color: rgba(225,225,225,1);
-	margin-bottom:1em;
+	font-family: Lobster, Cursive;
+	background-color: rgba(60,60,60,0.95);
+	margin-bottom:50px;
+	padding-top:30px;
+}
+
+span.date{
+	font-size:60px;
+	margin-left:30px;
+	margin-right:50px;
 }
 div.formBack {
 	display:none;
@@ -20,9 +33,9 @@ div.formBack {
 	z-index:1;
 }
 div.formFront {
-	padding:0;
-	height:20em;
-	width:30em;
+	padding:10px 20px 0px 20px;
+	height:auto;
+	width:35em;
 	background-color:#FFFFFF;
 	position:absolute;
 	left:0;
@@ -31,17 +44,39 @@ div.formFront {
 	z-index:2;
 }
 form {
-	font-family:Sans-Serif;
+	font-family:Lobster, Sans-Serif;
 	margin:4em 4em 4em 4em;
+	line-height:200%;
+	font-size:20px;
 }
-div.fieldName{
-	position:absolute;
-	left:0;
-	width:30%;
-	height:2em;
-	border:1px solid black;
+h2{
+	font-size:40px;
 }
+span.formErr{
+	color:red;
+}	
 .inputBox {
+	border-radius:3px;
+	border:1px rgb(205,205,205) solid;
+	padding-left:10px;
+	width:80%;
+    height: 35px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+@media only screen and (max-device-width: 480px) {
+	div.formFront {
+		height:auto;
+		width:90vw;
+		height:50vh;
+	}
+	form{
+		font-size:30px;
+	}
+	.inputBox{
+		height:60px;
+		font-size:25px;
+	}
 }
 button{
 	position:absolute;
@@ -66,10 +101,15 @@ button.submit{
 	margin-left:10%;
 }
 table{
+	font-family:Lobster,Sans-Serif;
+	font-size:20px;
 	margin-top:1px;
 	border-collapse:collapse;
 	margin-left:165px;
-	
+}
+th.headrow{
+	background-color: rgba(60,60,60,0.95);
+	color:#FFFFFF;
 }
 th{
 	height:4em;
@@ -80,37 +120,39 @@ td{
 	border:1px grey solid;
 	
 }
-#cornerBlock{
-	border-top:3px white solid;
-	border-left:3px white solid;
-}
 .headcol{
 	position:absolute;
 	left:10%;
 	margin-top:-1px;
 	width:160px;
-	background-color: white;
+	background-color: rgba(60,60,60,0.95);
+	color:#FFFFFF;
 	height:6em;
+	padding-top:0px;
 }
 div.headSpan{
 	height:100%;
 	width:100%;
-	padding-top:5px;
+	padding-top:20px;
 }
 div.empty{
+	cursor:pointer;
 	width:6em;
 	height:100%;
 }
 .rooms{
 	height:80px;
 }
+td.occupied{
+	background-color:white;
+}
 div.occupied{
 	text-align:center;
 	width:100%;
-	height:100%;
+	height:5em;
 	border-radius:0.5em;
+	padding-top:1em;
 }
 span.occupiedText{
-	vertical-align:middle;
-	margin:auto;
+	line-height:120%;
 }

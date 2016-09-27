@@ -1,7 +1,7 @@
 <?php
 $servername = "127.0.0.1";
 $username = "leetimmy";
-$password = "poohpooh";
+$password = "______"; //passowrd removed
 $dbname = "reservations";
 
 // Create connection
@@ -15,18 +15,9 @@ $weekName=array("SUN","MON","TUE","WED","THU","FRI","SAT");
 foreach ($weekName as $day){
 	foreach ($roomName as $i){
 		$sql = 
-		'CREATE TABLE '.$day.'_'.$i.' (
-		timeID INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-		booked BOOLEAN,
-		length INT(6),
-		name VARCHAR(30),
-		email VARCHAR(50),
-		house VARCHAR(30),
-		year VARCHAR(30),
-		color VARCHAR(30),
-		reg_date TIMESTAMP);';
+		'TRUNCATE TABLE '.$day.'_'.$i;
 		if ($conn->query($sql) === TRUE) {
-		    echo "New records created successfully";
+		    echo "Tables refreshed";
 		} else {
 		    echo "Error: " . $sql . "<br>" . $conn->error;
 		};

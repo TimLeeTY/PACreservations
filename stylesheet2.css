@@ -1,18 +1,39 @@
 body{
 	margin:0;
+	background-image:url("backdrop.svg");
+	background-position:center top;
 }
-div.heading{
-	font-size:5em;
-	font-family: Cursive;
-	text-align:center;
-	background-color: rgba(225,225,225,1);
-	margin-bottom:1em;
+
+#logo{
+	margin-left: 20%;
+	margin-right: 20%;
+	margin-top:6vh;
 }
-button{
-	width:13vw;
-	height:13vw;
+form{
+	padding: 0 3% 0 3%;
+	position:absolute;
+	bottom:5%;
+	margin:auto;
+}
+button {
+	cursor:pointer;
+	width: 13vw;
+	min-width:180px;
+	height: 13vw;
+	min-height:180px;
 	border-radius:50%;
-	border:0px;
-	font-size:2em;
-	
+	border: 0px;
+	color: #FFFFFF;
+	font-size: 2.3vw;
+	font-family:Lobster,Cursive;
+	margin-left: 0.1vw;
+	margin-bottom: 15px;
+	background-color: rgba(60,60,60,0.95);
+}
+@media only screen and (max-device-width: 480px) {
+	button{
+		width:30vw;
+		height:30vw;
+		font-size:3em;
+	}
 }
